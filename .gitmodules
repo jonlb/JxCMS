@@ -19,3 +19,15 @@
 [submodule "modules/auth"]
 	path = modules/auth
 	url = git://github.com/kohana/auth.git
+[submodule "modules/acl"]
+	path = modules/acl
+	url = git://github.com/synapsestudios/kohana-acl.git
+[submodule "modules/jelly"]
+	path = modules/jelly
+	url = http://github.com/jonathangeiger/kohana-jelly.git
+[submodule "modules/twig"]
+	path = modules/twig
+	url = http://github.com/jonathangeiger/kohana-twig.git
+[submodule "webroot/loader"]
+	path = webroot/loader
+	url = git@github.com:jonlb/jxLoader.git
