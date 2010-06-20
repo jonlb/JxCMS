@@ -28,6 +28,7 @@
 [submodule "modules/twig"]
 	path = modules/twig
 	url = http://github.com/jonathangeiger/kohana-twig.git
-[submodule "webroot/loader"]
-	path = webroot/loader
-	url = git@github.com:jonlb/jxLoader.git
+ 
+[submodule "modules/jelly-auth"]
+	path = modules/jelly-auth
+	url = http://github.com/raeldc/jelly-auth.git

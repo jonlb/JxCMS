@@ -68,15 +68,18 @@ Kohana::$config->attach(new Kohana_Config_File);
  * Enable modules. Modules are referenced by a relative or absolute path.
  */
 Kohana::modules(array(
-	'auth'       => MODPATH.'auth',       // Basic authentication
+
 	'cache'      => MODPATH.'cache',      // Caching with multiple backends
 	// 'codebench'  => MODPATH.'codebench',  // Benchmarking tool
 	'database'   => MODPATH.'database',   // Database access
 	'image'      => MODPATH.'image',      // Image manipulation
-	'orm'        => MODPATH.'orm',        // Object Relationship Mapping
+	'jelly'        => MODPATH.'jelly',        // Object Relationship Mapping
+    'jelly-auth'    => MODPATH.'jelly-auth',    
+    'auth'       => MODPATH.'auth',       // Basic authentication
+    'twig'          => MODPATH.'twig',          //template language
     'jxCore'        => MODPATH.'jxCore',        // the core of JxCMS
 	// 'pagination' => MODPATH.'pagination', // Paging of results
-	'userguide'  => MODPATH.'userguide',  // User guide and API documentation
+	//'userguide'  => MODPATH.'userguide',  // User guide and API documentation
 	));
 
 /**
@@ -89,11 +92,13 @@ Route::set('default', '(<controller>(/<action>(/<id>)))')
 		'action'     => 'index',
 	));
 
+//Jx_Debug::dump(Route::all(),'Defined routes');
+
 /**
  * Execute the main request. A source of the URI can be passed, eg: $_SERVER['PATH_INFO'].
  * If no source is specified, the URI will be automatically detected.
  */
-echo Request::instance()
-	->execute()
+echo Request::instance() 	
+    ->execute()
 	->send_headers()
 	->response;

@@ -46,18 +46,11 @@ class Jx_Event {
         }
 
         foreach ($events as $event) {
-            if (isset(self::$_observers[$event]) && in_array($observer,self::$_observers[$event])) {
-                
+            if (isset(self::$_observers[$event]) && ($index = array_search($observer,self::$_observers[$event]))) {
+                unset(self::$_observers[$event][$index]);
             }
         }
 
-		if (is_object($className)) {
-			$className = get_class($className);
-		}
-		unset(self::$_observers[$className]);
-		if (permanent) {
-			self::_removeObserverFromDatabase($className);
-		}
 	}
 	
 	/**
@@ -82,28 +75,13 @@ class Jx_Event {
 	 * @return Event_Notification
 	 */
 	public static function post($object, $event, $options = null) {
-		//normalize $options into an array
-		if (is_string($options)){
-			$options = array($options);
-		} elseif (is_object($options)){
-			$options = get_object_vars($options);
-		} elseif (!is_array($options)){
-			$options  = null;
-		}
-		
-		$eventName = 'on'.ucfirst($event);
-		
+
 		//setup the notification object
-		$notification = new Sgd_Event_Notification($object, $event, &$options);
+		$notification = new Jx_Event_Notification($object, $event, $options);
 		
 		//loop through the observers and call the appropriate method if present
-		foreach (self::$_observers as $o) {
-			$observer = $o['object'];
-			if (method_exists($observer,$eventName)) {
-				$observer->{$eventName}($notification);
-			} elseif (method_exists($observer, 'post')) {
-				$observer->post($notification);
-			}
+		foreach (self::$_observers[$event] as $o) {
+			call_user_func($o,$notification);
 			if ($notification->isEventStopped()) {
 				break;
 			}
