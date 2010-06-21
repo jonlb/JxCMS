@@ -7,8 +7,15 @@ class Controller_Admin extends Controller_Site {
 
 
     public $template = 'admin';
+
+    /**
+     * Everything in an admin controller should require login. If you override
+     * this in other controllers be sure to specify the 'allow_login' capability
+     * or you will open up any action that doesn't have additional needed capabilities.
+     */
+    protected $security_all = array('allow_login');
+
     
-    protected $auth;
 
     /**
      * The before() function will be used to check Auth and ACL

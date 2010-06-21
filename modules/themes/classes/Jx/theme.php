@@ -10,9 +10,11 @@ class Jx_Theme {
      */
     public static function onBeforeRender(Jx_Event_Notification $notification) {
 
-        $format = $notification->getObject()->request->param('format','html');
+        $controller = $notification->getObject();
 
-        if ($format !== 'html') {
+        $format = $controller->request->param('format','html');
+
+        if ($format !== 'html' || is_a($controller, 'Controller_Admin')) {
             return;
         }
         
@@ -21,7 +23,7 @@ class Jx_Theme {
         //eventually we will get the proper theme set in the database...
         //for now, just change the next line
 
-        $template->base_layout = 'theme2/base.html';
+        $template->base_layout = 'theme1/base.html';
 
     }
 
