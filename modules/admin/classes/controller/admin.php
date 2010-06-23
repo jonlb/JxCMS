@@ -13,7 +13,9 @@ class Controller_Admin extends Controller_Site {
      * this in other controllers be sure to specify the 'allow_login' capability
      * or you will open up any action that doesn't have additional needed capabilities.
      */
-    protected $security_all = array('allow_login');
+    protected $security_all = FALSE;
+
+    
 
     
 

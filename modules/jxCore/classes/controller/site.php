@@ -33,16 +33,37 @@ class Controller_Site extends Controller {
 
     public function before() {
 
-        if ($security !== FALSE && array_key_exists($this->request->action,$this->security)) {
-            //check the security here...
-            $this->auth = Auth::instance();
-            if (!$this->auth->logged_in()) {
-                $this->request->redirect(Route::get('users')->uri(array('action'=>'login')));
-            }
+        $this->auth = Auth::instance();
+        $user = $this->auth->get_user();
 
+        $capabilities = FALSE;
+        //first check $this->security_all
+        if ($this->security_all !== FALSE) {
+            if (is_array($this->security_all)){
+                $capabilities = $this->security_all;
+            } else {
+                $capabilities = array($this->security_all);
+            }
+        }
+
+        if ($this->security_action !== FALSE && array_key_exists($this->request->action,$this->security_action)) {
+            $c = $this->security_action[$this->request->action];
+
+            if (is_array($c)) {
+                $capabilities = array_merge($capabilities, $c);
+            } else {
+                $capabilities[] = $c;
+            }
         }
 
 
+        if (FALSE !== $capabilities) {
+            if (in_array(Jx_Acl::get_login_cap(), $capabilities) && !$this->auth->logged_in()) {
+                $this->request->redirect(Route::get('users')->uri(array('action'=>'login')));
+            } else if (!Jx_Acl::check_for_cap($capabilities, $user)) {
+                $this->request->redirect(Route::get('users')->uri(array('action'=>'denied')));
+            }
+        }
 
 
         if ($this->auto_render) {

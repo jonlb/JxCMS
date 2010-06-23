@@ -20,11 +20,8 @@ class Jx_Modules {
                     if (self::isActivated($fname) && !self::isPermanent($fname)){
                         //if registered, activated, and not permanent, run init.php for the module
                         //permanent modules are initialized by Kohana directly.
-                        $path = MODPATH.$fname.DS.'init.php';
-                        if (is_file($path)) {
-                            include_once $path;
-                            $paths[] = realpath(MODPATH.$fname).DS;
-                        }
+                        $path = MODPATH.$fname;
+                        $paths[] = realpath(MODPATH.$fname).DS;
                     }
                 } else {
                     self::register($fname);
@@ -34,7 +31,11 @@ class Jx_Modules {
         }
 
         Kohana::addPaths($paths);
-
+        foreach ($paths as $path) {
+            if (is_file($path.'init.php')) {
+                require_once $path.'init.php';
+            }
+        }
 
     }
 

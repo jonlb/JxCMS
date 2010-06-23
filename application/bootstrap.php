@@ -73,11 +73,12 @@ Kohana::modules(array(
 	// 'codebench'  => MODPATH.'codebench',  // Benchmarking tool
 	'database'   => MODPATH.'database',   // Database access
 	'image'      => MODPATH.'image',      // Image manipulation
+    'twig'          => MODPATH.'twig',          //template language
 	'jelly'        => MODPATH.'jelly',        // Object Relationship Mapping
+    'jxCore'        => MODPATH.'jxCore',        // the core of JxCMS
     'jelly-auth'    => MODPATH.'jelly-auth',    
     'auth'       => MODPATH.'auth',       // Basic authentication
-    'twig'          => MODPATH.'twig',          //template language
-    'jxCore'        => MODPATH.'jxCore',        // the core of JxCMS
+
 	// 'pagination' => MODPATH.'pagination', // Paging of results
 	//'userguide'  => MODPATH.'userguide',  // User guide and API documentation
 	));
