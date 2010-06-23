@@ -29,3 +29,6 @@
 [submodule "modules/jelly-auth"]
 	path = modules/jelly-auth
 	url = http://github.com/raeldc/jelly-auth.git
+[submodule "modules/loader"]
+	path = modules/loader
+	url = git@github.com:jonlb/jxLoader-kohana.git
