@@ -75,5 +75,9 @@ class Jx_Modules {
                 'name' => $name
             ))->save();
     }
+
+    public static function get_all(){
+        return self::$_modules;
+    }
     
 }
