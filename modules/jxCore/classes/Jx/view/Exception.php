@@ -1,4 +1,4 @@
 <?php
 
-class Sgd_View_Exception extends Exception {}
+class Jx_View_Exception extends Exception {}
 

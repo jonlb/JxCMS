@@ -26,7 +26,7 @@ class Jx_Theme {
         //check referer...
         $base = '';
         $redirect = (array) Session::instance()->get('redirect');
-        if (strpos($redirect['fromUrl'],'admin') !== FALSE) {
+        if (isset($redirect['fromUrl']) && strpos($redirect['fromUrl'],'admin') !== FALSE) {
             $base = 'admin'.DS;
         } else {
             $base = Jx_Settings::get('theme.activeDirectory').DS;
