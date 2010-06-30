@@ -5,11 +5,13 @@ class Jx_View_Json {
 
     private $_data;
 
-	public function __construct(request $request){
-		$request->headers['Content-Type'] = 'application/json';
-		$id = $request->param('requestId',null);
-        if (!is_null($id)) {
-            $this->requestId = $id;
+	public function __construct($request = null){
+        if (is_a($request, 'Request')) {
+            $request->headers['Content-Type'] = 'application/json';
+            $id = $request->param('requestId',null);
+            if (!is_null($id)) {
+                $this->requestId = $id;
+            }
         }
         $this->_data = new stdClass();
 	}

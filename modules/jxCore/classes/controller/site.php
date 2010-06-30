@@ -59,8 +59,10 @@ class Controller_Site extends Controller {
 
         if (FALSE !== $capabilities) {
             if (in_array(Jx_Acl::get_login_cap(), $capabilities) && !$this->auth->logged_in()) {
+                Session::instance()->set('redirect', array('fromUrl' => $this->request->uri));
                 $this->request->redirect(Route::get('users')->uri(array('action'=>'login')));
             } else if (!Jx_Acl::check_for_cap($capabilities, $user)) {
+                Session::instance()->set('redirect', array('fromUrl' => $this->request->uri));
                 $this->request->redirect(Route::get('users')->uri(array('action'=>'denied')));
             }
         }

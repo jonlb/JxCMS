@@ -23,8 +23,22 @@ class Jx_Theme {
         //eventually we will get the proper theme set in the database...
         //for now, just change the next line
 
-        $template->base_layout = 'theme1/base.html';
+        //check referer...
+        $base = '';
+        $redirect = (array) Session::instance()->get('redirect');
+        if (strpos($redirect['fromUrl'],'admin') !== FALSE) {
+            $base = 'admin'.DS;
+        } else {
+            $base = Jx_Settings::get('theme.activeDirectory').DS;
+        }
+
+        $template->base_layout = $base.'base.html';
 
     }
 
+    public static function get_current_theme_dir(){
+        //Eventually we should check the database for the current theme
+        //for right now, just return one
+        return 'theme1';
+    }
 }

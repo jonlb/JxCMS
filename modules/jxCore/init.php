@@ -11,5 +11,10 @@ Session::$default = 'database';
 
 Jx_Modules::init();
 
+Route::add('media','media/<action>/<file>',null,'admin')
+    ->defaults(array(
+        'controller' => 'media'
+    ));
 
-//Jx_Debug::dump(Route::all(),'Defined routes');
+
+

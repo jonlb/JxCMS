@@ -2,6 +2,12 @@
 
 class Controller_User extends Controller_Site {
 
+    public $_login_form = array(
+        'class' => 'jxForm',
+        'action' => '/user/login',
+        
+    );
+
     public function before(){
         parent::before();
 

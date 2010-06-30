@@ -54,6 +54,8 @@ Kohana::init(array(
 	'index_file' => FALSE,
 ));
 
+//define production
+define('IN_PRODUCTION',false);
 /**
  * Attach the file write to logging. Multiple writers are supported.
  */

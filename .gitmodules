@@ -33,3 +33,9 @@
 [submodule "modules/loader"]
 	path = modules/loader
 	url = git@github.com:jonlb/jxLoader-kohana.git
+[submodule "modules/formoj"]
+	path = modules/formoj
+	url = http://github.com/bmidget/kohana-formo-jelly.git
+[submodule "modules/formo"]
+	path = modules/formo
+	url = http://github.com/bmidget/kohana-formo.git
