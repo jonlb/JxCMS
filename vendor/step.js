@@ -26,6 +26,7 @@ function Step() {
   var steps = Array.prototype.slice.call(arguments),
       counter, results, lock;
 
+
   // Define the main callback that's given as `this` to the steps.
   function next() {
 

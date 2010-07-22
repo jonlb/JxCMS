@@ -9,20 +9,36 @@
  */
 
 //add current system paths to require
-require.paths.unshift('./vendor');
-require.paths.unshift('./system');
-require.paths.unshift('./config');
+require.paths.unshift('./vendor', './system', './config', './models');
 
 //require mootools so we can use Class everywhere
 require('mootools').apply(GLOBAL);
-var sys = require('sys');
+var sys = require('sys'),
+    model = require('models'),
+    config = require('global').global,  //global config
+    Step = require('step');
 
-//pull in the global config
-var config = require('global').global;
 
 //setup the global core object
 GLOBAL.core = new (require('core').core)(config);
-require('modules');
+
+//load in all models defined in ./models/ directory
+
+var steps = Array.from(model.init);
+steps.push(function done(){
+      sys.log('=> DONE');
+  }
+);
+
+sys.log(sys.inspect(steps));
+
+Step.run(steps);
+
+
+
+
+/**
+
 
 //test the route parsing
 var router = require("router").Router;
@@ -37,7 +53,7 @@ sys.log(sys.inspect(router.get('test')));
 router.dispatch({uri:'/admin/users/2'},{});
 
 
-
+**/
 
 
 
