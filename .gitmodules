@@ -1,12 +1,35 @@
-[submodule "vendors"]
-	path = vendors
-	url = git://github.com/LearnBoost/mongoose.git
-[submodule "vendor/mongoose"]
-	path = vendor/mongoose
-	url = git://github.com/LearnBoost/mongoose.git
-[submodule "vendor/promise"]
-	path = vendor/promise
-	url = http://github.com/kriszyp/node-promise.git
-[submodule "vendor/cookiejar"]
-	path = vendor/cookiejar
-	url = http://github.com/bmeck/node-cookiejar.git
+[submodule "system"]
+	path = system
+	url = git://github.com/kohana/core.git
+[submodule "modules/database"]
+	path = modules/database
+	url = git://github.com/kohana/database.git
+[submodule "modules/cache"]
+	path = modules/cache
+	url = git://github.com/kohana/cache.git
+[submodule "modules/userguide"]
+	path = modules/userguide
+	url = http://github.com/kohana/userguide.git
+[submodule "modules/orm"]
+	path = modules/orm
+	url = git://github.com/kohana/orm.git
+[submodule "modules/image"]
+	path = modules/image
+	url = git://github.com/kohana/image.git
+[submodule "modules/auth"]
+	path = modules/auth
+	url = git://github.com/kohana/auth.git
+[submodule "modules/jelly"]
+	path = modules/jelly
+	url = http://github.com/jonathangeiger/kohana-jelly.git
+[submodule "modules/twig"]
+	path = modules/twig
+	url = http://github.com/jonathangeiger/kohana-twig.git
+ 
+[submodule "modules/jelly-auth"]
+	path = modules/jelly-auth
+	url = http://github.com/raeldc/jelly-auth.git
+
+[submodule "modules/loader"]
+	path = modules/loader
+	url = git@github.com:jonlb/jxLoader-kohana.git

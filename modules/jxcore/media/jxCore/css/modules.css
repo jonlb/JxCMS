@@ -1,0 +1,83 @@
+.jxcmsPanelBody {
+    padding: 5px;
+    margin: 0 auto;
+    width: 800px;
+}
+
+.jxcmsPanelBody .jxSection {
+    margin-bottom: 10px;
+}
+
+.jxcmsPanelBody .jxSectionHeader {
+    border-bottom: 2px solid black;
+    font-weight: bold;
+    font-size: 1.15em;
+}
+
+.jxSectionBody {
+    border-left: 1px black solid;
+    border-bottom: 1px black solid;
+    border-right: 1px black solid;
+}
+
+.jxcmsModuleItem .itemImg {
+  width: 16px;
+  height: 16px;
+  background-repeat: no-repeat;
+  vertical-align: middle;
+}
+
+
+.jxcmsModuleItem .itemLabel {
+  vertical-align: middle;
+  line-height: 16px;
+  padding-left: 4px;
+}
+
+.jxcmsModuleItem .itemTools {
+  position: absolute;
+  display: none;
+  right: 2px;
+  top: 0;
+  height: 20px;
+  width: 48px;
+}
+
+.jxcmsModuleItem .jxHover .itemTools {
+  display: block;
+}
+
+.jxcmsModuleItem .itemTools img {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+  float: right;
+}
+
+.jxcmsModuleItem .active {
+    background-image: url(../images/brick.png);
+}
+
+.jxcmsModuleItem .inactive {
+    background: url(../images/brick_error.png);
+}
+
+.jxcmsModuleItem .activate {
+    background: url(../images/brick_go.png);
+}
+
+.jxcmsModuleItem .deactivate {
+    background: url(../images/brick_link.png);
+}
+
+.jxcmsModuleItem .jxcmsModulesUninstall {
+    background: url(../images/brick_delete.png);
+}
+
+.jxcmsModuleItem .jxcmsModulesInstall {
+    background: url(../images/brick_add.png);
+}
+
+.jxcmsModuleItem .jxcmsModulesRemove {
+    background: url(../images/brick_delete.png);
+}

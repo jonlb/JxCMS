@@ -1,0 +1,16 @@
+{% form.open model.action, model.attributes %}
+{% if model.errors %}
+<div class="errors" >
+    <ul>
+{% for error in model.errors %}
+        <li>{{error}}</li>
+{% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+{% for field in model.fields %}
+{{field.view}}
+{% endfor %}
+
+{% form.close %}

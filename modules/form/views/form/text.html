@@ -1,0 +1,6 @@
+<div>
+{% if model.label %}
+{% form.label model.name, model.label %}
+{% endif %}
+{% form.input model.name, model.value, model.attributes %}
+</div>

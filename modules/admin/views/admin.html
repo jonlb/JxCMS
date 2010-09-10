@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+    <head>
+	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Admin Area - {% Jx_Settings.get "site.title"%}</title>
+        {% Jx_Assets.render_css "main" %}
+        {% Jx_Assets.render_js "main" %}
+        
+    </head>
+    <body>
+        <div id="page-container">
+
+            <div id="menubar">
+                <a href="/" id="site" title="Go to site" target="_blank">{% Jx_Settings.get "site.title"%}</a>
+                <div id="controls"><span id="username">Welcome, {{username}}</span>|<a href="{{logout_link}}">Logout</a></div>
+                <div id="menu-container">
+                </div>
+            </div>
+
+            <div id="page">
+            </div>
+
+            <div id="footer">
+                <p>The footer will go here....</p>
+            </div>
+
+        </div>
+    </body>
+</html>

@@ -1,0 +1,6 @@
+<div>
+{% form.label model.name, model.label %}
+{% for item in model.items %}
+{% form.radio model.name, model.value, model.checked, model.attributes %}
+{% endfor %}
+</div>
