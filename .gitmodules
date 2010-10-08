@@ -1,34 +1,34 @@
 [submodule "system"]
 	path = system
-	url = git://github.com/kohana/core.git
+	url = git@github.com:jonlb/core.git
 [submodule "modules/database"]
 	path = modules/database
-	url = git://github.com/kohana/database.git
+	url = git@github.com:jonlb/database.git
 [submodule "modules/cache"]
 	path = modules/cache
-	url = git://github.com/kohana/cache.git
+	url = git@github.com:jonlb/cache.git
 [submodule "modules/userguide"]
 	path = modules/userguide
-	url = http://github.com/kohana/userguide.git
+	url = git@github.com:jonlb/userguide.git
 [submodule "modules/orm"]
 	path = modules/orm
-	url = git://github.com/kohana/orm.git
+	url = git@github.com:jonlb/orm.git
 [submodule "modules/image"]
 	path = modules/image
-	url = git://github.com/kohana/image.git
+	url = 	git@github.com:jonlb/image.git
 [submodule "modules/auth"]
 	path = modules/auth
-	url = git://github.com/kohana/auth.git
+	url = git@github.com:jonlb/auth.git
 [submodule "modules/jelly"]
 	path = modules/jelly
-	url = http://github.com/jonathangeiger/kohana-jelly.git
+	url = git@github.com:jonlb/kohana-jelly.git
 [submodule "modules/twig"]
 	path = modules/twig
-	url = http://github.com/jonathangeiger/kohana-twig.git
+	url = git@github.com:jonlb/kohana-twig.git
  
 [submodule "modules/jelly-auth"]
 	path = modules/jelly-auth
-	url = http://github.com/raeldc/jelly-auth.git
+	url = git@github.com:jonlb/jelly-auth.git
 
 [submodule "modules/loader"]
 	path = modules/loader
