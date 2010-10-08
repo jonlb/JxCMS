@@ -15,7 +15,7 @@
 	url = git@github.com:jonlb/orm.git
 [submodule "modules/image"]
 	path = modules/image
-	url = 	git@github.com:jonlb/image.git
+	url = git@github.com:jonlb/image.git
 [submodule "modules/auth"]
 	path = modules/auth
 	url = git@github.com:jonlb/auth.git
@@ -25,11 +25,6 @@
 [submodule "modules/twig"]
 	path = modules/twig
 	url = git@github.com:jonlb/kohana-twig.git
- 
 [submodule "modules/jelly-auth"]
 	path = modules/jelly-auth
 	url = git@github.com:jonlb/jelly-auth.git
-
-[submodule "modules/loader"]
-	path = modules/loader
-	url = git@github.com:jonlb/jxLoader-kohana.git
