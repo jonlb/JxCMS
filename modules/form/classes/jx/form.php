@@ -395,10 +395,13 @@ class Jx_Form {
 		$this->load_defaults();
 		$view = Jx_View::factory($this->model['view']);
 		$view->model = $this->model;
+        //Jx_Debug::dump($view->model);
         if (isset($this->erros)) {
             $view->errors = $this->errors;
         }
-		return $view->render();
+		$ret = $view->render();
+        //Jx_Debug::dump($view);
+        return $ret;
 	}
 
 	public function __toString() {

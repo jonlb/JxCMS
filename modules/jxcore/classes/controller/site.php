@@ -36,6 +36,8 @@ class Controller_Site extends Controller {
         $this->auth = Auth::instance();
         $user = $this->auth->get_user();
 
+        //Jx_Debug::dump($this->auth,'auth object');
+        //Jx_Debug::dump($user, 'User object');
         $capabilities = FALSE;
         //first check $this->security_all
         if ($this->security_all !== FALSE) {
@@ -56,21 +58,20 @@ class Controller_Site extends Controller {
             }
         }
 
-        Jx_Debug::dump($capabilities, 'checking for capabilities');
+        //Jx_Debug::dump($capabilities, 'checking for capabilities');
         if (FALSE !== $capabilities) {
             if (in_array(Jx_Acl::get_login_cap(), $capabilities) && !$this->auth->logged_in()) {
-                Jx_Debug::dump(null,'not logged in');
+                //Jx_Debug::dump(null,'not logged in');
                 Session::instance()->set('redirect', array('fromUrl' => $this->request->uri));
-                //$this->request->redirect(Route::get('users')->uri(array('action'=>'login')));
+                $this->request->redirect(Route::get('users')->uri(array('action'=>'login')));
             } else if (!Jx_Acl::check_for_cap($capabilities, $user)) {
-                Jx_Debug::dump(null, 'no capability');
+                //Jx_Debug::dump(null, 'no capability');
                 Session::instance()->set('redirect', array('fromUrl' => $this->request->uri));
                 //$this->request->redirect(Route::get('users')->uri(array('action'=>'denied')));
             }
         }
 
-        Jx_Debug::dump(null, 'checks passed');
-        die();
+        //Jx_Debug::dump(null, 'checks passed');
 
         if ($this->auto_render) {
             $this->template = Jx_View::factory($this);

@@ -9,16 +9,20 @@ class Controller_User extends Controller_Site {
 
     public function action_login() {
 
+        //echo "in action_login()";
+        
         if ($this->auth->logged_in('login')) {
             Request::instance()->redirect('/');
         }
 
         $form = new Jx_Form('login');
 
-        Jx_Debug::dump($_POST);
+        //Jx_Debug::dump($form, 'The form object');
+
         
         if (isset($_POST['login']) && $form->populate($_POST)) {
             $ret = $form->result();
+            //Jx_Debug::dump($ret, 'Return from the form');
             $user = $ret['models']['user'];
             $redirect = Session::instance()->get('redirect', null);
             if ($this->auth->login($user->username,$user->password, FALSE)) {
@@ -29,6 +33,8 @@ class Controller_User extends Controller_Site {
             }
         }
         $this->template->login_form = $form->render();
+
+        //Jx_Debug::dump($this->template->login_form);
 
 
     }
