@@ -28,3 +28,6 @@
 [submodule "modules/jelly-auth"]
 	path = modules/jelly-auth
 	url = git@github.com:jonlb/jelly-auth.git
+[submodule "modules/loader"]
+	path = modules/loader
+	url = git@github.com:jonlb/jxLoader-kohana.git
