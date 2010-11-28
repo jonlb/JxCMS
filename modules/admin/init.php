@@ -4,11 +4,12 @@
 
 
 //set the admin route
-Route::set('admin', 'admin(/<controller>(/<action>(/<id>)))')
+Route::set('admin', 'admin(/<controller>(/<action>(.<format>)))')
 	->defaults(array(
         'directory' => 'admin',
 		'controller' => 'index',
 		'action'     => 'index',
+        'format'    => 'html',
 	));
 
 
