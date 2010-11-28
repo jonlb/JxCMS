@@ -168,12 +168,14 @@ class Controller_Media extends Controller
 	 */
 	protected function display_file( $file, $ext){
 		// set header
+        //Jx_Debug::dump($ext, 'extension');
         $mime = "mimes.$ext";
         $config = Kohana::config($mime);
         $content_type = reset($config);
         //Jx_Debug::dump($content_type, 'content type');
-		header('Content-Type: ' . $content_type );
+		header('Content-type: ' . $content_type );
 		// include file
 		include $file;
+        exit(); //stop so that we don't get the wrong content-type.
 	}
 }

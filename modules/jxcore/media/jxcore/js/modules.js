@@ -8,7 +8,7 @@ description: Admin component for managing modules
 license: MIT-style license.
 
 requires:
- - jx-extensions/Jx.Section
+ - jxlib-extensions/Jx.Section
  - jxlib/Jx.Store.Parser.JSON
  - jxlib/Jx.Store.Protocol.Ajax
  - jxlib/Jx.Store.Strategy.Full

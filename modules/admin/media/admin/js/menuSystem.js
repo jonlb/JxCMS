@@ -8,7 +8,7 @@ description:
 license: MIT-style license.
 
 requires:
- - jx-extensions/Jx.Request
+ - jxlib-extensions/Jx.Request
  - jxlib/Jx.ButtonSet
  - jxlib/Jx.Toolbar
  - jxlib/Jx.Menu
