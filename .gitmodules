@@ -31,3 +31,6 @@
 [submodule "modules/loader"]
 	path = modules/loader
 	url = git@github.com:jonlb/jxLoader-kohana.git
+[submodule "modules/firephp"]
+	path = modules/firephp
+	url = git@github.com:jonlb/KO3_FirePHP.git

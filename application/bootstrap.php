@@ -2,6 +2,8 @@
 
 //-- Environment setup --------------------------------------------------------
 
+
+
 /**
  * Set the default time zone.
  *
@@ -66,6 +68,7 @@ Kohana::$log->attach(new Kohana_Log_File(APPPATH.'logs'));
  */
 Kohana::$config->attach(new Kohana_Config_File);
 
+//var_dump('about to init modules');
 /**
  * Enable modules. Modules are referenced by a relative or absolute path.
  */
@@ -73,6 +76,7 @@ Kohana::modules(array(
 
 	'cache'      => MODPATH.'cache',      // Caching with multiple backends
 	// 'codebench'  => MODPATH.'codebench',  // Benchmarking tool
+    'firephp'   => MODPATH.'firephp',
 	'database'   => MODPATH.'database',   // Database access
 	'image'      => MODPATH.'image',      // Image manipulation
     'twig'          => MODPATH.'twig',          //template language
@@ -84,6 +88,17 @@ Kohana::modules(array(
 	// 'pagination' => MODPATH.'pagination', // Paging of results
 	'userguide'  => MODPATH.'userguide'  // User guide and API documentation
 	));
+
+/**
+ * Attach FirePHP to logging. be sure to enable firephp module
+ */
+
+// Exclude all FirePHP console logs from the file log...
+
+Kohana::$log->attach(new FirePHP_Log_File(APPPATH.'logs'));
+Kohana::$log->attach(new FirePHP_Log_Console());
+//Kohana::$log->add('FirePHP::INFO', 'FirePHP Initialized...')->write();
+
 
 /**
  * Set the routes. Each route must have a minimum of a name, a URI and a set of
@@ -106,3 +121,11 @@ echo Request::instance()
     ->execute()
 	->send_headers()
 	->response;
+
+
+FirePHP_Profiler::instance()
+	->group('KO3 FirePHP Profiler Results:')
+	->superglobals() // New Superglobals method to show them all...
+	->database()
+	->benchmark()
+	->groupEnd();

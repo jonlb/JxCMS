@@ -29,7 +29,7 @@ class Jx_Theme {
         if (isset($redirect['fromUrl']) && strpos($redirect['fromUrl'],'admin') !== FALSE) {
             $base = 'admin'.DS;
         } else {
-            $base = Jx_Settings::get('theme.activeDirectory').DS;
+            $base = self::get_current_theme_dir().DS;
         }
 
         $template->base_layout = $base.'base.html';
@@ -39,7 +39,7 @@ class Jx_Theme {
     public static function get_current_theme_dir(){
         //Eventually we should check the database for the current theme
         //for right now, just return one
-        return 'theme1';
+        return Jx_Settings::get('theme.activeDirectory');
     }
 
 

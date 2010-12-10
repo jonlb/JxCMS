@@ -6,7 +6,6 @@ Class Controller_Admin_Index extends Controller_Admin {
     {
         $loader_uri = Jx_Loader::uri(array(
             'file' => array('loader'),
-            'page' => 'admin',
             'clearSession' => 'true',
             'rebuild' => 'true',
             'compress' => 'false'

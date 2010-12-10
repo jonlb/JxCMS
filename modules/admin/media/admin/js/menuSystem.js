@@ -96,7 +96,6 @@ var MenuSystem = new Class({
                 }.bind(this)
 
             });
-            //this.set.add(menu);
             if (opts.selected) {
                 menu.setActive(true);
             }
@@ -109,22 +108,17 @@ var MenuSystem = new Class({
         //first get all tabs
         console.log($content);
 
-        var buttons = $content.tabBar.list.items();
         var found = false;
-        buttons.each(function(item){
-            var tab;
-            tab = (item instanceof Jx.Tab) ? item : document.id(item).getFirst().retrieve('jxTab');
-            var label = tab.getLabel();
-            if ($defined(label) && label == opts.text) {
-                if (tab.isActive()) {
-                    document.id($content.tabbar).getParent().retrieve('jxBarContainer').scrollIntoView(tab);
-                    found = true;
-                } else {
-                    tab.setActive(true);
-                    found = true;
-                }
+        tab = $moduleManager.findByLabel(opts.text);
+        if (tab) {
+            if (tab.isActive()) {
+                document.id($content.tabbar).getParent().retrieve('jxBarContainer').scrollIntoView(tab);
+                found = true;
+            } else {
+                tab.setActive(true);
+                found = true;
             }
-        },this);
+        }
         if (!found) {
             $content.setBusy(true);
             $uses(opts.file,null,null,function(){$content.setBusy(false);});

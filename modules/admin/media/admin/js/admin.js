@@ -14,6 +14,7 @@ requires:
  - jxlib/Jx.TabBox
  - jxlib/Jx.Plugin.ToolbarContainer.TabMenu
  - core/JSON
+ - Jx.Manager.Module
 
 css:
  - admin
@@ -26,6 +27,7 @@ provides: [admin]
 var $request = new Jx.Request();
 var $content = null;
 var $noticeArea = null;
+var $moduleManager = new Jx.Manager.Module({type: 'module'});
 
 window.addEvent('domready',function(){
     //set layouts
@@ -44,6 +46,7 @@ window.addEvent('domready',function(){
         bottom: 25
     });
 
+
     //add Tabbox to contentArea
     $content = new Jx.TabBox({parent: 'page'});
     var toolbarContainer = document.id($content.tabBar).getParent('.jxBarContainer').retrieve('jxBarContainer');
@@ -51,9 +54,14 @@ window.addEvent('domready',function(){
     var tabmenu = new Jx.Plugin.ToolbarContainer.TabMenu();
     tabmenu.attach(toolbarContainer);
 
+    //register with moduleManager to learn about new tabs added and show them
+    $moduleManager.addEvent('itemAdded', function(el){
+        $content.add(el);
+    });
+
     //eventually we should get the dashboard here...
     //for now open an empty tab
-    $content.add(
+    $moduleManager.register(
         new Jx.Tab({
             active: true,
             label: 'Dashboard',

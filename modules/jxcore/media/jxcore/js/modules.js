@@ -8,19 +8,20 @@ description: Admin component for managing modules
 license: MIT-style license.
 
 requires:
- - jxlib-extensions/Jx.Section
  - jxlib/Jx.Store.Parser.JSON
  - jxlib/Jx.Store.Protocol.Ajax
  - jxlib/Jx.Store.Strategy.Full
  - jxlib/Jx.Store.Strategy.Save
  - jxlib/Jx.Store
- - jxlib/Jx.Panel
  - jxlib/Jx.Field.File
  - jxlib/Jx.Notice
  - jxlib/Jx.Notifier
  - jxlib/Jx.Button
  - jxlib/Jx.ListView
  - jxlib/Jx.ListItem
+ - jxlib/Jx.Splitter
+ - jxlib/Jx.Panel.FileUpload
+ - Jx.Module
 
 css:
  - modules
@@ -41,18 +42,66 @@ provides: [modules]
 
 Jx.Modules = new Class({
 
-    Extends: Jx.Panel,
-
-    options: {
-        hideTitle: true,
-        notifier: null,
-        close: false,
-        maximize: false,
-        collapse: false
-    },
+    Extends: Jx.Module,
     
     render: function () {
 
+        this.parent();
+        
+        //use a layout to divide the top/bottom
+        var splitV = new Jx.Splitter(this.mainArea,{
+            layout: 'vertical',
+            useChildren: false,
+            containerOptions: [{resizeWithWindow: true, height: 100},{resizeWithWindow: true}]
+        });
+
+        //split the bottom using a splitter
+        var splitH = new Jx.Splitter(splitV.elements[1],{
+            layout: 'horizontal'
+        });
+
+        //add the upload panel to the top section
+        var uploadPanel  = new Jx.Panel.FileUpload({
+            parent: splitV.elements[0],
+            label: 'Upload Module File(s)',
+            file: {
+                progress: false,
+                handlerUrl: '',
+                id: 'file-upload-test',
+                name: 'file-upload-test',
+                label: 'File to Upload',
+                debug: true,
+                mode: 'single',
+                autoUpload: true
+            },
+            prompt: '',
+            removeOnComplete: true,
+            collapse: false,
+            onFileUploadComplete: function(filename){
+                log("File " + filename + " Uploaded.");
+            },
+            onAllUploadsCompleted: function() {
+                log("All Files Uploaded.");
+            }
+        });
+        //uploadPanel.addTo('fileUploadPanelDiv');
+        //$(uploadPanel).resize();
+        
+        //add panels with listviews to the two sides
+        var installed = new Jx.Panel({
+            parent: splitH.elements[0],
+            label: 'Currently Installed Modules',
+            collapse: false
+        });
+
+        var toInstall = new Jx.Panel({
+            parent: splitH.elements[1],
+            label: 'Modules ready to be installed',
+            collapse: false
+        });
+
+        this.content.resize();
+        /*
         this.domObjA = new Element('div', {
         	'class': 'jxcmsPanelBody'
         });
@@ -170,9 +219,10 @@ Jx.Modules = new Class({
 
         this.options.content = this.domObjA;
 
-        this.parent();
+
         this.store.load();
         this.loadWaiting();
+        */
     },
 
     populateInstalled: function () {
@@ -331,7 +381,8 @@ var moduleTab = new Jx.Tab({
     active: true,
     close: true,
     label: 'Manage Modules',
-    content: modulePanel
+    content: modulePanel,
+    id: 'Modules'
 });
 //let's just add the tab for now
-$content.add(moduleTab);
+$moduleManager.register(moduleTab);
