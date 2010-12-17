@@ -25,4 +25,8 @@ Class Controller_Admin_Modules extends Controller_Admin {
     public function action_waiting() {
         
     }
+
+    public function action_listAllPerm() {
+        $this->template->modules = Jx_Modules::getPermanent();
+    }
 }

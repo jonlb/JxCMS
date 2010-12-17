@@ -19,4 +19,11 @@ class Request extends Kohana_Request {
         //echo "<br>$key = "; var_dump($ret);
         return $ret;
     }
+
+    public function __construct($uri){
+        parent::__construct($uri);
+
+        //merge all params into a single array.
+        $this->_params = array_merge_recursive($this->_params, $_COOKIE, $_GET, $_POST, $_FILES, $_SERVER);
+    }
 }

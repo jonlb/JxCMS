@@ -80,6 +80,15 @@ class Jx_Modules {
         return self::$_modules;
     }
 
+    public static function getPermanent() {
+        $perm = array();
+
+
+        $notify = Jx_Event::post($perm,'getPluginModules');
+
+        return $perm;
+    }
+
     public static function onGetAdminMenu(Jx_Event_Notification $notification) {
         if ($notification->hasReturnData()) {
             $menu = $notification->getReturnData();

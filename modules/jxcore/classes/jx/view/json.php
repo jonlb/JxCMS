@@ -6,14 +6,16 @@ class Jx_View_Json {
     private $_data;
 
 	public function __construct($request = null){
+        $this->_data = new stdClass();
         if (is_a($request, 'Request')) {
             $request->headers['Content-Type'] = 'application/json';
             $id = $request->param('requestId',null);
+            Jx_Debug::log($request,'Request variable','dump');
             if (!is_null($id)) {
                 $this->requestId = $id;
+                Jx_Debug::log($id, 'Passed in request ID');
             }
         }
-        $this->_data = new stdClass();
 	}
 
 	public function __set($key, $value) {

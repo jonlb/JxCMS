@@ -122,6 +122,8 @@ var MenuSystem = new Class({
         if (!found) {
             $content.setBusy(true);
             $uses(opts.file,null,null,function(){$content.setBusy(false);});
+        } else {
+            $moduleManager.fireEvent('itemAdded', [tab]);
         }
     },
 

@@ -27,9 +27,16 @@ provides: [admin]
 var $request = new Jx.Request();
 var $content = null;
 var $noticeArea = null;
-var $moduleManager = new Jx.Manager.Module({type: 'module'});
+var $moduleManager = new Jx.Manager.Module({
+    type: 'module',
+    request: $request,
+    url: '/admin/modules/listAllPerm.json'
+});
 
 window.addEvent('domready',function(){
+
+    $moduleManager.getAllPermModules();
+
     //set layouts
     var thePage = new Jx.Layout('page-container');
     new Jx.Layout('menubar',{
@@ -54,6 +61,10 @@ window.addEvent('domready',function(){
     var tabmenu = new Jx.Plugin.ToolbarContainer.TabMenu();
     tabmenu.attach(toolbarContainer);
 
+    $content.tabSet.addEvent('tabChange', function(tabset, tab){
+        tabset.resizeTabBox();
+    });
+    
     //register with moduleManager to learn about new tabs added and show them
     $moduleManager.addEvent('itemAdded', function(el){
         $content.add(el);

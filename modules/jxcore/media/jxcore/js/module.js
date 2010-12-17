@@ -58,9 +58,9 @@ Jx.Module = new Class({
             barOptions: [{snap: 'after'}]
         });
 
-        this.mainArea = splitter.elements[0];
+        this.mainArea = this.splitter.elements[0];
         //eventually this should be a panelset or similar accordian that holds panels.
-        this.addOns = splitter.elements[1];
+        this.addOns = this.splitter.elements[1];
 
         //snap the bar closed to start....
         this.splitter.bars[0].fireEvent('dblclick');

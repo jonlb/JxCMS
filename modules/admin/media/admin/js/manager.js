@@ -24,7 +24,18 @@ Jx.Manager.Module = new Class({
     Extends: Jx.Manager,
 
     options: {
-        type: 'manager'
+        type: 'manager',
+        request: null,
+        url: null
+    },
+
+    request: null,
+
+    init: function () {
+        this.parent();
+        if ($defined(this.options.request)) {
+            this.request = this.options.request;
+        }
     },
 
     findByLabel: function(label) {
@@ -37,6 +48,20 @@ Jx.Manager.Module = new Class({
         }, this);
 
         return mod;
+    },
+
+    getAllPermModules: function () {
+        //ajax call to get list of permanent modules
+        if (this.request) {
+            this.request.callServer(null,{
+                url: this.options.url,
+                method: 'get'
+            });
+        }
+    },
+
+    processPermModules: function(data) {
+        //process module list
     }
     
 });

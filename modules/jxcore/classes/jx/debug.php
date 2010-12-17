@@ -18,6 +18,9 @@ class Jx_Debug {
                 case 'error':
                     Fire::error($variable, $label);
                     break;
+                case 'dump':
+                    Fire::dump($variable, $label);
+                    break;
             }
         } else {
             if (isset($label)) {
