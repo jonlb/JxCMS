@@ -1,6 +1,3 @@
-[submodule "system"]
-	path = system
-	url = git@github.com:jonlb/core.git
 [submodule "modules/database"]
 	path = modules/database
 	url = git@github.com:jonlb/database.git
