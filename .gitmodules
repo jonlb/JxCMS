@@ -31,3 +31,6 @@
 [submodule "modules/firephp"]
 	path = modules/firephp
 	url = git@github.com:jonlb/KO3_FirePHP.git
+[submodule "modules/cache"]
+	path = modules/cache
+	url = git@github.com:jonlb/cache.git
