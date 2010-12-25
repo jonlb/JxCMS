@@ -30,12 +30,12 @@ var $noticeArea = null;
 var $moduleManager = new Jx.Manager.Module({
     type: 'module',
     request: $request,
-    url: '/admin/modules/listAllPerm.json'
+    url: '/admin/modules/listAllPlugins.json'
 });
 
 window.addEvent('domready',function(){
 
-    $moduleManager.getAllPermModules();
+    $moduleManager.getAllPlugins();
 
     //set layouts
     var thePage = new Jx.Layout('page-container');
@@ -56,31 +56,15 @@ window.addEvent('domready',function(){
 
     //add Tabbox to contentArea
     $content = new Jx.TabBox({parent: 'page'});
+
+    thePage.resize();
+
     var toolbarContainer = document.id($content.tabBar).getParent('.jxBarContainer').retrieve('jxBarContainer');
     //add tabmenu plugin
     var tabmenu = new Jx.Plugin.ToolbarContainer.TabMenu();
     tabmenu.attach(toolbarContainer);
 
-    $content.tabSet.addEvent('tabChange', function(tabset, tab){
-        tabset.resizeTabBox();
-    });
-    
-    //register with moduleManager to learn about new tabs added and show them
-    $moduleManager.addEvent('itemAdded', function(el){
-        $content.add(el);
-    });
 
-    //eventually we should get the dashboard here...
-    //for now open an empty tab
-    $moduleManager.register(
-        new Jx.Tab({
-            active: true,
-            label: 'Dashboard',
-            content: '<p>The dashboard will be here eventually.</p>'
-        })
-    );
-
-    thePage.resize();
 
     $noticeArea = new Jx.Notifier.Float({
         parent: 'menubar',
@@ -100,5 +84,19 @@ window.addEvent('domready',function(){
 
     var menuSystem = new MenuSystem(menu);
 
+    $content.tabSet.addEvent('tabChange', function(tabset, tab){
+        debugger;
+        tab.module.createInterface();
+    });
+
+    //register with moduleManager to learn about new tabs added and show them
+    $moduleManager.addEvent('itemAdded', function(el){
+        $content.add(el.tab);
+
+    });
+
     $('page-container').fade('in');
+
+    //eventually we should get the dashboard here...
+
 });

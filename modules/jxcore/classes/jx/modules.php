@@ -80,13 +80,13 @@ class Jx_Modules {
         return self::$_modules;
     }
 
-    public static function getPermanent() {
-        $perm = array();
-
-
-        $notify = Jx_Event::post($perm,'getPluginModules');
-
-        return $perm;
+    public static function getVersion($name) {
+        $class = 'Jx_'.ucfirst($name);
+        if (class_exists($class) && is_callable(array($class, 'getVersion'))) {
+            return call_user_func(array($class, 'getVersion'));
+        } else {
+            return call_user_func(array('Jx_Core','getVersion'));
+        }
     }
 
     public static function onGetAdminMenu(Jx_Event_Notification $notification) {

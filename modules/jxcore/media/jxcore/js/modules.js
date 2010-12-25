@@ -12,6 +12,7 @@ requires:
  - jxlib/Jx.Store.Protocol.Ajax
  - jxlib/Jx.Store.Strategy.Full
  - jxlib/Jx.Store.Strategy.Save
+ - jxlib/Jx.Store.Strategy.Sort
  - jxlib/Jx.Store
  - jxlib/Jx.Field.File
  - jxlib/Jx.Notice
@@ -22,6 +23,7 @@ requires:
  - jxlib/Jx.Splitter
  - jxlib/Jx.Panel.FileUpload
  - Jx.Module
+ - jxlib-extensions/Jx.Adaptor.ListView.Fill
 
 css:
  - modules
@@ -43,30 +45,32 @@ provides: [modules]
 Jx.Modules = new Class({
 
     Extends: Jx.Module,
+
+    name: 'modules',
     
-    render: function () {
+    createInterface: function () {
 
         this.parent();
-        
+
         //use a layout to divide the top/bottom
-        var splitV = new Jx.Splitter(this.mainArea,{
+        var splitV = new Jx.Splitter(this.splitter.elements[0],{
             layout: 'vertical',
             useChildren: false,
-            containerOptions: [{resizeWithWindow: true, height: 100},{resizeWithWindow: true}]
+            containerOptions: [{height: 100},{height: null}]
         });
-
+/*
         //split the bottom using a splitter
         var splitH = new Jx.Splitter(splitV.elements[1],{
             layout: 'horizontal'
         });
-
+*/
         //add the upload panel to the top section
         var uploadPanel  = new Jx.Panel.FileUpload({
             parent: splitV.elements[0],
             label: 'Upload Module File(s)',
             file: {
                 progress: false,
-                handlerUrl: '',
+                handlerUrl: '/admin/modules/upload',
                 id: 'file-upload-test',
                 name: 'file-upload-test',
                 label: 'File to Upload',
@@ -84,78 +88,28 @@ Jx.Modules = new Class({
                 log("All Files Uploaded.");
             }
         });
-        //uploadPanel.addTo('fileUploadPanelDiv');
-        //$(uploadPanel).resize();
-        
+
+
+        this.installedView = new Jx.ListView();
+
         //add panels with listviews to the two sides
         var installed = new Jx.Panel({
-            parent: splitH.elements[0],
+            parent: splitV.elements[1],
             label: 'Currently Installed Modules',
-            collapse: false
+            collapse: false,
+            content: this.installedView
         });
 
+        /*
+        this.waitingView = new Jx.ListView();
         var toInstall = new Jx.Panel({
             parent: splitH.elements[1],
             label: 'Modules ready to be installed',
-            collapse: false
+            collapse: false,
+            content: this.waitingView
         });
-
-        this.content.resize();
-        /*
-        this.domObjA = new Element('div', {
-        	'class': 'jxcmsPanelBody'
-        });
-        //file upload section
-        var uploadBody = new Element('div');
-        this.uploader = new Jx.Field.File({
-            id: 'moduleUpload',
-            name: 'moduleUpload',
-            label: 'Choose a file to upload',
-            progress: true,
-            progressIDUrl: '/admin/modules/uploadProgressID.json',
-            handlerUrl: '/admin/modules/upload',
-            progressUrl: '/admin/modules/progress.json',
-            onUploadComplete: function(data){
-                this.notifier.remove(this.notice);
-                this.loadWaiting();
-            }.bind(this),
-            onUploadBegin: function (){
-                this.notice = new Jx.Notice({
-                    content: 'Beginning File Upload...'
-                });
-                this.notifier.add(this.notice);
-            }.bind(this),
-            onUploadError: this.uploadError.bind(this),
-            onFileSelected: function () {
-                this.uploadButton.setEnabled(true);
-            }.bind(this)
-        });
-        this.uploader.addTo(uploadBody);
-        //upload button
-        this.uploadButton = new Jx.Button({
-            label: 'Upload Module File',
-            enabled: false,
-            onClick: function () {
-                this.uploader.upload();
-            }.bind(this)
-        });
-        this.uploadButton.addTo(uploadBody);
-        if (!$defined(this.options.notifier)) {
-            this.notifier = new Jx.Notifier({
-                parent: uploadBody
-              });
-        } else {
-            this.notifier = this.options.notifier;
-        }
-
-        new Jx.Section({
-            parent: this.domObjA,
-            heading: 'Upload New/Updated Modules',
-            body: uploadBody
-        });
-
-        //Installed modules
-        this.installedBody = new Element('div');
+*/
+        //this.content.resize();
 
         var parser = new Jx.Store.Parser.JSON({secure: true});
         var protocol = new Jx.Store.Protocol.Ajax({
@@ -167,8 +121,11 @@ Jx.Modules = new Class({
         });
         var full = new Jx.Store.Strategy.Full();
         var save = new Jx.Store.Strategy.Save({autoSave: true});
-        this.store = new Jx.Store({
-            strategies: [full, save],
+        var sort = new Jx.Store.Strategy.Sort({
+            sortCols: ['permanent','active','name']
+        });
+        this.installedStore = new Jx.Store({
+            strategies: [full, save, sort],
             protocol: protocol,
             record: Jx.Record,
             columns: [{
@@ -181,91 +138,49 @@ Jx.Modules = new Class({
                 name: 'name',
                 type: 'alphanumeric'
             },{
-                name: 'permanent',
-                type: 'boolean'
-            },{
                 name: 'version',
                 type: 'alphanumeric'
             },{
-                name: 'info',
-                type: 'alphanumeric'
+                name: 'permanent',
+                type: 'boolean'
             }],
             recordOptions: {
                 primaryKey: 'id'
             }
         });
-        this.store.addEvent('storeDataLoaded',this.populateInstalled.bind(this));
-
-        //TODO: use a ListView here
-        this.installedView = new Jx.ListView();
-        this.installedView.addTo(this.installedBody);
-
-        new Jx.Section({
-            parent: this.domObjA,
-            heading: 'Currently Installed Modules',
-            body: this.installedBody
+        //add listView.Fill adaptor
+        var adaptor = new Jx.Adaptor.ListView.Fill({
+            itemTemplate: "<li class='jxListItemContainer jxcmsModuleItem'><a class='jxListItem' href='javascript:void(0);'><img src='"+Jx.aPixel.src+"' class='itemImg jxcmsModuleIcon'><span class='itemLabel'>{label}</span><span class='itemTools'><img src='"+Jx.aPixel.src+"' class='itemImg jxcmsActivateButton'/><img src='"+Jx.aPixel.src+"' class='itemImg jxcmsModulesUninstall' title='Uninstall Module'/></a></li>",
+            template: '{name} : Version {version}',
+            store: this.installedStore,
+            onItemCreated: this.alterInstalledListItem.bind(this)
         });
-
-        //Modules waiting for install
-        this.waitingBody = new Element('div');
-        this.waitingView = new Jx.ListView();
-        this.waitingView.addTo(this.waitingBody);
-
-        new Jx.Section({
-            parent: this.domObjA,
-            heading: 'Modules Waiting to be Installed',
-            body: this.waitingBody
-        });
-
-        this.options.content = this.domObjA;
+        adaptor.attach(this.installedView);
+        //this.store.addEvent('storeDataLoaded',this.populateInstalled.bind(this));
 
 
-        this.store.load();
-        this.loadWaiting();
-        */
+        this.installedStore.load();
+        //this.loadWaiting();
+
     },
 
-    populateInstalled: function () {
-        //loop through store and add to the listView
-
-        //empty the listview
-        this.installedView.list.empty();
-        var templ = "<li class='jxListItemContainer jxcmsModuleItem'><a class='jxListItem' href='javascript:void(0);'><img src='"+Jx.aPixel.src+"' class='itemImg {class}'><span class='itemLabel'>{name}</span><span class='itemTools'><img src='"+Jx.aPixel.src+"' class='itemImg {activateClass}' title='{activateTitle}'/><img src='"+Jx.aPixel.src+"' class='itemImg jxcmsModulesUninstall' title='Uninstall Module'/></a></li>";
-        this.store.first();
-        var flag = true;
-
-        while (flag) {
-            var o = {};
-            o.name = this.store.get('name');
-            var active = this.store.get('active');
-            o['class'] = active?'active': 'inactive';
-            o.activateClass = active?'deactivate': 'activate';
-            o.activateTitle = active?'Deactivate Module': 'Activate Module';
-            var theTemplate = new String(templ).substitute(o);
-            var item = new Jx.ListItem({template:theTemplate, enabled: true});
-            $(item).store('moduleId', this.store.get('id'));
-            $(item).store('moduleName', this.store.get('name'));
-            if (this.store.get('permanent')) {
-                if (!active) {
-                    $(item).getElement('.activate').dispose();
-                } else {
-                    $(item).getElement('.deactivate').dispose();
-                }
-                $(item).getElement('.jxcmsModulesUninstall').dispose();
+    alterInstalledListItem: function(item, record) {
+        item = document.id(item);
+        //add active class/title
+        var activateLink = item.getElement('.jxcmsActivateButton');
+        //add permanent class
+        if (record.get('permanent')){
+            item.addClass('jxcmsModulePermanent');
+            activateLink.dispose();
+            item.getElement('.jxcmsModulesUninstall').dispose();
+            item.getElement('.jxcmsModuleIcon').addClass('active');
+        } else {
+            if (record.get('active')) {
+                activateLink.addClass('deactivate').set('title','Deactivate Module' ).addEvent('click', this.update.bind(this, [item, false]));
+                item.getElement('.jxcmsModuleIcon').addClass('active');
             } else {
-                if (!active) {
-                    $(item).getElement('.activate').addEvent('click', this.update.bind(this, [item, true]));
-                } else {
-                    $(item).getElement('.deactivate').addEvent('click', this.update.bind(this, [item, false]));
-                }
-                $(item).getElement('.jxcmsModulesUninstall').addEvent('click', this.uninstall.bind(this, item));
-            }
-            this.installedView.add(item);
-
-            if (this.store.hasNext()) {
-                this.store.next();
-            } else {
-                flag = false;
+                activateLink.addClass('activate').set('title','Activate Module' ).addEvent('click', this.update.bind(this, [item, true]));
+                item.getElement('.jxcmsModuleIcon').addClass('inactive');
             }
         }
     },
@@ -304,18 +219,16 @@ Jx.Modules = new Class({
     },
 
     update: function (item, activate) {
-        var name = $(item).retrieve('moduleName');
 
-        var obj = {
-            module: name,
-            install: activate
-        };
-        $request.callServer(obj,{
-            url: '/admin/modules/update.json',
-            events: {
-                onSuccess: this.afterUpdate.bind(this)
-            }
-        });
+        //change this to use the store to alter the activated state
+        item = document.id(item);
+        var id = item.retrieve('moduleId');
+        var n = this.store.findByColumn('id',id);
+        this.store.set('active',activate,n);
+        var class = activate ? '.deactivate' : '.activate';
+        var newClass = !activate ? '.deactivate' : '.activate';
+        item.getElement(class).removeClass(class).addClass(newClass);
+
     },
 
     uninstall: function (item) {
@@ -374,15 +287,7 @@ Jx.Modules = new Class({
 
 });
 
-var modulePanel = new Jx.Modules({
-    notifier: $noticeArea
-});
-var moduleTab = new Jx.Tab({
-    active: true,
-    close: true,
+$moduleManager.register(new Jx.Modules({
     label: 'Manage Modules',
-    content: modulePanel,
     id: 'Modules'
-});
-//let's just add the tab for now
-$moduleManager.register(moduleTab);
+}));

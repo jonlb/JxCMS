@@ -9,7 +9,7 @@ class Jx_Acl {
      * must have ALL of the capabilities listed to pass this check.
      * @static
      * @param  $cap The capability to check for
-     * @param  $user The userto check on (will grab pertinent roles as well)
+     * @param  $user The user to check on (will grab pertinent roles as well)
      * @return void
      */
     public static function check_for_cap($cap, $user = null) {

@@ -23,22 +23,18 @@ provides: [Jx.Module]
 
 Jx.Module = new Class({
 
-    Extends: Jx.Panel,
+    Extends: Jx.Widget,
 
     options: {
-        hideTitle: true,
-        notifier: null,
-        close: false,
-        maximize: false,
-        collapse: false
+        label: ''
     },
 
     addOnPanels: null,
-
     mainArea: null,
     addOns: null,
-
     addOnClosed: null,
+    notifier: null,
+    tab: null,
 
     init: function(){
         this.addOnPanels = [];
@@ -47,23 +43,36 @@ Jx.Module = new Class({
     },
 
     render: function(){
+
         this.parent();
 
-        //split the area with a splitter so we can have an
-        //add on split pane
-        this.splitter = new Jx.Splitter(this.content,{
-            layout: 'horizontal',
-            useChildren: false,
-            containerOptions: [{resizeWithWindow: true},{resizeWithWindow: true, width: 300}],
-            barOptions: [{snap: 'after'}]
+        //create a tab
+        this.tab = new Jx.Tab({active: true,
+            close: true,
+            label: this.options.label
         });
 
+        //add a reference to the module so we can get it from the tab
+        this.tab.module = this;
+    },
+
+    /**
+     * Creates the interface for the module. Called after the tab is added to the
+     * $content TabBox.
+     */
+    createInterface: function() {
+        //split the area with a splitter so we can have an
+        //add on split pane
+        this.splitter = new Jx.Splitter(this.tab.content,{
+            layout: 'horizontal',
+            containerOptions: [{width: null},{width: 300}],
+            barOptions: [{snap: 'after'}]
+        });
         this.mainArea = this.splitter.elements[0];
-        //eventually this should be a panelset or similar accordian that holds panels.
         this.addOns = this.splitter.elements[1];
 
         //snap the bar closed to start....
-        this.splitter.bars[0].fireEvent('dblclick');
+        //this.splitter.bars[0].fireEvent('dblclick');
     },
 
     /**
@@ -77,6 +86,10 @@ Jx.Module = new Class({
             //open the addOn pane
             this.splitter.bars[0].fireEvent('dblClick');
         }
+    },
+
+    setNotifier: function (notifier) {
+        this.notifier = notifier;
     }
 
 });

@@ -10,10 +10,10 @@ class Jx_View_Json {
         if (is_a($request, 'Request')) {
             $request->headers['Content-Type'] = 'application/json';
             $id = $request->param('requestId',null);
-            Jx_Debug::log($request,'Request variable','dump');
+            //Jx_Debug::log($request,'Request variable','dump');
             if (!is_null($id)) {
                 $this->requestId = $id;
-                Jx_Debug::log($id, 'Passed in request ID');
+                //Jx_Debug::log($id, 'Passed in request ID');
             }
         }
 	}

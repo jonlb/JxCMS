@@ -3,7 +3,7 @@
 
 name: Jx.Manager.Module
 
-description:
+description: Module for managing the addition/activation/removal of admin modules in JxCMS
 
 license: MIT-style license.
 
@@ -50,18 +50,29 @@ Jx.Manager.Module = new Class({
         return mod;
     },
 
-    getAllPermModules: function () {
-        //ajax call to get list of permanent modules
+    getAllPlugins: function () {
+        //ajax call to get list of plugins
         if (this.request) {
             this.request.callServer(null,{
                 url: this.options.url,
-                method: 'get'
+                method: 'get',
+                events: {
+                    onSuccess: this.processPlugins.bind(this)
+                }
             });
         }
     },
 
-    processPermModules: function(data) {
+    processPlugins: function(data) {
         //process module list
+        console.log(data);
+        if ($defined(data.modules)) {
+            $H(data.modules).each(function(value, key){
+                if ($defined(value.files)) {
+                    $uses(value.files, null, null, function(){});
+                }
+            },this);
+        }
     }
     
 });

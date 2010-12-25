@@ -106,7 +106,7 @@ var MenuSystem = new Class({
     loadModule: function (opts) {
         //check for whether this is already loaded...
         //first get all tabs
-        console.log($content);
+        //console.log($content);
 
         var found = false;
         tab = $moduleManager.findByLabel(opts.text);

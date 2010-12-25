@@ -81,3 +81,7 @@
 .jxcmsModuleItem .jxcmsModulesRemove {
     background: url(../images/brick_delete.png);
 }
+
+.jxcmsModulePermanent {
+    background-color: #C0C0C0;
+}
